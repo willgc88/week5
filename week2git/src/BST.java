@@ -30,12 +30,8 @@ public class BST<T extends Comparable<T>> {
         this(null);
     }
 
-
-    // TODO Task 2: Implement the BST methods.
-
     public boolean isEmpty() {
-        // TODO implement me!
-        return false;
+        return this.root == null;
     }
 
     public boolean contains(T item) {
@@ -53,42 +49,95 @@ public class BST<T extends Comparable<T>> {
 
 
     public void insert(T item) {
-        // TODO implement me!
+        if (this.isEmpty()) {
+            this.root = item;
+            this.left = new BST<>();
+            this.right = new BST<>();
+        } else if (item.compareTo(this.root) <= 0) {
+            this.left.insert(item);
+        } else {
+            this.right.insert(item);
+        }
     }
 
 
     public void delete(T item) {
-        // TODO implement me!
+        if (this.isEmpty()) {
+            assert true;
+        } else if (item.equals(this.root)) {
+            this.deleteRoot();
+        } else if (item.compareTo(this.root) < 0) {
+            this.left.delete(item);
+        } else {
+            this.right.delete(item);
+        }
     }
 
     private void deleteRoot() {
-        // TODO implement me!
+        if (this.left.isEmpty() && this.right.isEmpty()){
+            this.root = null;
+            this.left = null;
+            this.right = null;
+        } else if (this.left.isEmpty()) {
+            T root = this.right.root;
+            BST<T> left = this.right.left;
+            BST<T> right = this.right.right;
+            this.root = root;
+            this.left = left;
+            this.right = right;
+
+        } else if (this.right.isEmpty()) {
+            T root = this.left.root;
+            BST<T> left = this.left.left;
+            BST<T> right = this.left.right;
+            this.root = root;
+            this.left = left;
+            this.right = right;
+        } else {
+            this.root = this.left.extractMax();
+        }
     }
 
 
     private T extractMax() {
-        // TODO implement me!
-        return this.root; // dummy code; replace with correct code when you implement this.
+        if (this.right.isEmpty()) {
+            T max_item = this.root;
+            this.deleteRoot();
+            return max_item;
+        } else {
+            return this.right.extractMax();
+        }
     }
 
     public int height() {
-        // TODO implement me!
-        return 0;
+        if (this.isEmpty()) {
+            return 0;
+        } else {
+            return Math.max(this.left.height(), this.right.height()) + 1;
+        }
     }
 
     public int count(T item) {
-        // TODO implement me!
-        return 0;
+        if (this.isEmpty()) {
+            return 0;
+        } else if (this.root.compareTo(item) > 0) {
+            return this.left.count(item);
+        } else if (this.root.equals(item)) {
+            return 1 + this.left.count(item) + this.right.count(item);
+        } else {
+            return this.right.count(item);
+        }
     }
 
     public int getLength() {
-        // TODO implement me!
-        return 0;
+        if (this.isEmpty()) {
+            return 0;
+        }
+        return 1 + this.left.getLength() + this.right.getLength();
     }
 
     public static void main(String[] args) {
-        // TODO you can write any code you want here and run this file to confirm that
-        //      your code is working as it should. We will not run this when testing your code.
+        // test code
     }
 
 }
