@@ -5,8 +5,6 @@ import java.util.*;
  * This is the basic setup for loading data to then attempt to solve Problem 18 (and 67)
  * from Project Euler (https://projecteuler.net/problem=18)
  *
- * TODO: implement the loadTriangle method as described below
- *
  * Extra: Solve problems 18 and 67 [not for credit]
  *
  */
@@ -66,10 +64,30 @@ public class Problem18 {
      */
     public static NumberTriangle loadTriangle(String fname) throws IOException {
         File f = new File(fname);
-
-        // TODO complete this method
-
-        return null;
+        Scanner reader = new Scanner(f);
+        NumberTriangle[] prevTrees = new NumberTriangle[0];
+        NumberTriangle mainTree = null;
+        while (reader.hasNextLine()) {
+            String line = reader.nextLine();
+            String[] stringNums = line.split(" ");
+            int[] nums = new int[stringNums.length];
+            NumberTriangle[] currTrees = new NumberTriangle[stringNums.length];
+            for (int i = 0; i < stringNums.length; i++) {
+                nums[i] = Integer.parseInt(stringNums[i]);
+                currTrees[i] = new NumberTriangle(Integer.parseInt(stringNums[i]));
+            }
+            if (prevTrees.length == 0) {
+                mainTree = currTrees[0];
+            } else {
+                for (int i = 0; i < currTrees.length - 1; i++) {
+                    prevTrees[i].setLeft(currTrees[i]);
+                    prevTrees[i].setRight(currTrees[i + 1]);
+                }
+            }
+            prevTrees = currTrees;
+        }
+        reader.close();
+        return mainTree;
     }
 
 

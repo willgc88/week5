@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * This is the provided NumberTriangle class to be used in this assignment.
  *
@@ -17,7 +19,6 @@
  * in Problem18.java. We have not included any code to enforce the structure noted above,
  * and you don't have to write any either.
  *
- * TODO: Implement the retrieve method.
  *
  * See Problem18Test.java for a few basic test cases.
  *
@@ -59,13 +60,14 @@ public class NumberTriangle {
         // you can put any code that you want here as you write the code; we will not
         // run this method.
         NumberTriangle root = new NumberTriangle(5);
-        root.setLeft(new NumberTriangle(10));
+        NumberTriangle leftTree= new NumberTriangle(88);
+        leftTree.setRight(new NumberTriangle(9));
+        root.setLeft(leftTree);
         root.setRight(new NumberTriangle(42));
         System.out.println(root.root);
-        String[] paths = {"", "l", "r"};
+        String[] paths = {"", "l", "lr", "r"};
         System.out.println("trying each path...");
-        for (String path :
-                paths) {
+        for (String path : paths) {
             System.out.println(path + " = " + root.retrieve(path));
         }
     }
@@ -88,8 +90,16 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO: implement me!
-        return 0;
-
+        if (path.isEmpty()) {
+            return this.getRoot();
+        } else if (path.startsWith("l")) {
+            String newPath = path.substring(1);
+            return this.left.retrieve(newPath);
+        } else if (path.startsWith("r")) {
+            String newPath = path.substring(1);
+            return this.right.retrieve(newPath);
+        } else {
+            throw new RuntimeException();
+        }
     }
 }
