@@ -8,9 +8,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, ClearUserDataAccessInterface {
 
@@ -98,16 +96,18 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     @Override
-    public void clearUsers() {
+    public List clearUsers() {
+        List<String> usernames = new ArrayList<>(accounts.keySet());
         accounts.clear();
         BufferedWriter writer;
         try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile, false));
             writer.write(String.join(",", headers.keySet()));
             writer.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return usernames;
     }
 }

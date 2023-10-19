@@ -7,6 +7,7 @@ public class SignupState {
     private String passwordError = null;
     private String repeatPassword = "";
     private String repeatPasswordError = null;
+    private String clearedUsers = null;
 
     public SignupState(SignupState copy) {
         username = copy.username;
@@ -76,5 +77,13 @@ public class SignupState {
                 ", password='" + password + '\'' +
                 ", repeatPassword='" + repeatPassword + '\'' +
                 '}';
+    }
+
+    public void setClearedUsers(String usernames) {
+        this.clearedUsers = usernames;
+    }
+
+    public String getClearedUsers() {
+        return clearedUsers;
     }
 }

@@ -10,9 +10,6 @@ import java.awt.event.KeyEvent;
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 
-// TODO: to run the tests, add JUnit4 to the classpath as you have done
-//       with the previous tests. Make sure to mark the test directory
-//       as your "Test Sources" root.
 public class SignupViewTest {
 
     @org.junit.Test

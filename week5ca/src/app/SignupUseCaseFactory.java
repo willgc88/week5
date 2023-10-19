@@ -25,8 +25,11 @@ import java.io.IOException;
 
 public class SignupUseCaseFactory {
 
-    /** Prevent instantiation. */
-    private SignupUseCaseFactory() {}
+    /**
+     * Prevent instantiation.
+     */
+    private SignupUseCaseFactory() {
+    }
 
     public static SignupView create(
             ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject, ClearViewModel clearViewModel, ClearUserDataAccessInterface clearUserDataAccessInterface) {
@@ -34,7 +37,7 @@ public class SignupUseCaseFactory {
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
             ClearController clearController = clearUsersUseCase(viewManagerModel, clearViewModel, clearUserDataAccessInterface, signupViewModel);
-            return new SignupView(signupController, signupViewModel, clearViewModel, clearController);
+            return new SignupView(signupController, signupViewModel, clearController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -54,6 +57,7 @@ public class SignupUseCaseFactory {
 
         return new SignupController(userSignupInteractor);
     }
+
     private static ClearController clearUsersUseCase(ViewManagerModel viewManagerModel, ClearViewModel clearViewModel, ClearUserDataAccessInterface userDataAccessObject, SignupViewModel signupViewModel) throws IOException {
         ClearOutputBoundary clearOutputBoundary = new ClearPresenter(viewManagerModel, signupViewModel, clearViewModel);
         ClearInputBoundary clearInteractor = new ClearInteractor(userDataAccessObject, clearOutputBoundary);
